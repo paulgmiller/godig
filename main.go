@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net"
 	"os"
 	"time"
@@ -38,16 +39,17 @@ func main() {
 	defer cancel()
 
 	start := time.Now()
+	log.Printf("Sent")
 	ips, err := r.LookupHost(ctx, name)
 	elapsed := time.Since(start)
 
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "lookup error: %v (elapsed: %s)\n", err, elapsed)
+		log.Printf("lookup error: %v (elapsed: %s)\n", err, elapsed)
 		os.Exit(1)
 	}
 
-	fmt.Printf("Server: %s\n", server)
-	fmt.Printf("Query time: %s\n", elapsed)
+	log.Printf("Server: %s\n", server)
+	log.Printf("Query time: %s\n", elapsed)
 	for _, ip := range ips {
 		fmt.Println(ip)
 	}
